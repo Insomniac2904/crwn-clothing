@@ -15,7 +15,6 @@ const defaultFormFields = {
 const SignUpForm = () => {
   const [formField, setFormField] = useState(defaultFormFields); // init state vars
   const { displayName, email, password, confirmPassword } = formField; // init values same as that of defaultFormFields
-
   const resetForm = () => {
     setFormField(defaultFormFields);
   };

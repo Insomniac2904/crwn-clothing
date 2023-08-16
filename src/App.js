@@ -18,7 +18,8 @@ const App = () => {
   return (
     <Routes>
       <Route path='/' element={<Navigation />}>
-        <Route index element={<Home />} />
+        <Route index element={<Home />} />{" "}
+        {/* index means that on / route the home component will also render but it is child of navigation . therefore the navigation bar stays same onle the home component part changes to other routes */}
         <Route path='/shop' element={<Shop />} />
         <Route path='/auth' element={<Authentication />} />
       </Route>

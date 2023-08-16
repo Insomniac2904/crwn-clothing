@@ -16,7 +16,6 @@ const defaultFormFields = {
 const SignInForm = () => {
   const [formField, setFormField] = useState(defaultFormFields); // init state vars
   const { email, password } = formField; // init values same as that of defaultFormFields
-
   const resetForm = () => {
     setFormField(defaultFormFields);
   };
@@ -24,10 +23,8 @@ const SignInForm = () => {
   //! Submit Handler
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
-      const response = await signInAuthUsingEmailAndPassword(email, password);
-      console.log(response);
+      const { user } = await signInAuthUsingEmailAndPassword(email, password);
       resetForm();
     } catch (error) {
       if (error.code === "auth/wrong-password") alert("Incorrect Password");
@@ -40,6 +37,7 @@ const SignInForm = () => {
     const { user } = await signInWithGooglePopup();
     await createUserDocumentFromAuth(user);
   };
+
   //! Change Handler
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -68,7 +66,7 @@ const SignInForm = () => {
           value={password}
         />
         <div className='buttons-container'>
-          <Button type='submit'>Sign Up</Button>
+          <Button type='submit'>Sign In</Button>
           {/* by default buttons are of type submit */}
           <Button type='button' onClick={signInWithGoogle} buttonType='google'>
             Sign In with Google

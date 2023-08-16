@@ -1,14 +1,17 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
 import {
-  getAuth,
+  getAuth, // to get auth service of any kinf we need this
   signInWithPopup,
   signInWithRedirect,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 
+//configuring firebase
 const firebaseConfig = {
   apiKey: "AIzaSyDssE48tEbetOErH0pEoAU7IassAZ9oGy0",
   authDomain: "crwn-clothing-db-8a299.firebaseapp.com",
@@ -33,6 +36,7 @@ export const signInWithGooglePopup = () =>
 
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
+
 export const db = getFirestore();
 
 export const createUserDocumentFromAuth = async (
@@ -71,3 +75,8 @@ export const signInAuthUsingEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
   return await signInWithEmailAndPassword(auth, email, password);
 };
+
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangeObserver = (callback) =>
+  onAuthStateChanged(auth, callback);
