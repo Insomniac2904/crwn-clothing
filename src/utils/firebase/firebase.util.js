@@ -1,5 +1,15 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, getDoc, doc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  getDoc,
+  doc,
+  setDoc,
+  collection,
+  writeBatch,
+  query,
+  getDocs,
+} from "firebase/firestore";
+
 import {
   getAuth, // to get auth service of any kinf we need this
   signInWithPopup,
@@ -38,6 +48,32 @@ export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider);
 
 export const db = getFirestore();
+
+// adding the categories to the database
+export const addcollectionAndDoc = async (collectionKey, thingsToAdd) => {
+  const collectionRef = collection(db, collectionKey);
+  const batch = writeBatch(db); // to maintain proper transactions
+
+  thingsToAdd.forEach((element) => {
+    const docRef = doc(collectionRef, element.title.toLowerCase()); // get the doc ref as the the one in collection ref having same title as. if not present firebase will automaticlly create it.
+    batch.set(docRef, element); // setter on docRef that adds the element to the db
+  });
+  await batch.commit(); //commit changes to db
+  console.log("done");
+};
+
+export const getCategoriesAndDocs = async () => {
+  const collectionRef = collection(db, "categories");
+  const q = query(collectionRef);
+
+  const querySnapshot = await getDocs(q);
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnap) => {
+    const { title, items } = docSnap.data();
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {});
+  return categoryMap;
+};
 
 export const createUserDocumentFromAuth = async (
   userAuth,

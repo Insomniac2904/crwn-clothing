@@ -1,14 +1,28 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
-import PRODUCTS from "../shopdata.json";
+import {
+  addcollectionAndDoc,
+  getCategoriesAndDocs,
+} from "../utils/firebase/firebase.util.js";
 
 export const ProductsContext = createContext({
   products: [],
 });
 
 export const ProductProvider = ({ children }) => {
-  const [products, setProducts] = useState(PRODUCTS);
+  const [products, setProducts] = useState([]);
   const value = { products };
+  useEffect(() => {
+    const getCategoriesMap = async () => {
+      const categoryMap = await getCategoriesAndDocs();
+      console.log(categoryMap);
+    };
+    getCategoriesMap();
+  }, []);
+  //* the useeffect that was used to add data to firestore
+  // useEffect(() => {
+  //   addcollectionAndDoc("categories", SHOP_DATA);
+  // }, []);
 
   return (
     <ProductsContext.Provider value={value}>
