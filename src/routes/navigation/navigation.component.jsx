@@ -22,7 +22,7 @@ const Navigation = () => {
             SHOP
           </Link>
           {currentUser ? (
-            <span className='nac-link' onClick={signOutUser}>
+            <span className='nav-link' onClick={signOutUser}>
               SIGN OUT
             </span>
           ) : (
