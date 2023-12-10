@@ -19,6 +19,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  // setPersistence,
+  // browserSessionPersistence,
 } from "firebase/auth";
 
 //configuring firebase
@@ -40,6 +42,7 @@ googleProvider.setCustomParameters({
 });
 
 export const auth = getAuth();
+// setPersistence(auth, browserSessionPersistence);
 
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
